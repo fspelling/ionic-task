@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1 class="ion-text-center">
+    <ion-icon name="done-all" color="primary" class="icon-7em"></ion-icon>
+  </h1>
+
+  <form [formGroup]="authForm" (onsubmit)="onsubmit()">
+    <ng-container *ngIf="!configs.isLogin">
+        <ion-item>
+          <ion-icon name="person" color="primary" slot="start"></ion-icon>
+          <ion-input formControlName="name" placeholder="name"></ion-input>
+          <ion-note slot="end" color="danger" *ngIf="name.dirty && name.hasError('required')">Required</ion-note>
+          <ion-note slot="end" color="danger" *ngIf="name.dirty && name.hasError('minlength')">Minime is 3 caracters</ion-note>
+        </ion-item>
+    </ng-container>
+
+    <ion-item>
+      <ion-icon name="mail" color="primary" slot="start"></ion-icon>
+      <ion-input type="email" inputmode="email" placeholder="e-mail" formControlName="email" autofocus="true" ></ion-input>
+      <ion-note slot="end" color="danger" *ngIf="email.dirty && email.hasError('required')">Required</ion-note>
+      <ion-note slot="end" color="danger" *ngIf="email.dirty && email.hasError('email')">Mail is invalid</ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="lock" color="primary" slot="start"></ion-icon>
+      <ion-input formControlName="password" placeholder="password"></ion-input>
+      <ion-note slot="end" color="danger" *ngIf="password.dirty && password.hasError('required')">Required</ion-note>
+      <ion-note slot="end" color="danger" *ngIf="password.dirty && password.hasError('minlength')">Minime is 6 caracters</ion-note>
+    </ion-item>
+
+    <ion-button expand="block" [disabled]="authForm.invalid">{{ configs.action }}</ion-button>
+    <ion-button expand="block" fill="clear" (click)="changeActionAuth()">{{ configs.actionChange }}</ion-button>
+    <ion-button expand="block">
+      <ion-icon name="logo-facebook" slot="start"></ion-icon>
+      Login with Facebook
+    </ion-button>
+  </form>
+</ion-content>

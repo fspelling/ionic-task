@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { NavController } from '@ionic/angular';
+
+import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthProvider } from 'src/app/core/services/auth.type';
+import { OverlayService } from 'src/app/core/services/overlay/overlay.service';
 
 @Component({
   selector: 'app-login',
@@ -7,6 +12,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  authProvider = AuthProvider;
   authForm: FormGroup;
   controlName = new FormControl('', [Validators.required, Validators.minLength(6)]);
 
@@ -16,7 +22,11 @@ export class LoginPage implements OnInit {
     actionChange: 'Create Account'
   };
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private overlayService: OverlayService,
+    private navCtrl: NavController) { }
 
   ngOnInit() {
     this.authForm = this.createForm();
@@ -41,7 +51,23 @@ export class LoginPage implements OnInit {
     });
   }
 
-  onsubmit() {
+  async onsubmit(provider: AuthProvider): Promise<void> {
+    const loading = await this.overlayService.loading();
+
+    try {
+      const credentials = await this.authService.signIn({
+        isSignIn: this.configs.isLogin,
+        provider,
+        user: this.authForm.value
+      });
+
+      this.navCtrl.navigateForward(['/tasks']);
+    } catch (error) {
+      console.log('Auth error: ', error);
+      await this.overlayService.toast({ message: error.message });
+    } finally {
+      loading.dismiss();
+    }
   }
 
   changeActionAuth() {

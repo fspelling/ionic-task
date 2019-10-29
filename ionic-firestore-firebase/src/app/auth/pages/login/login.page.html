@@ -9,7 +9,7 @@
     <ion-icon name="done-all" color="primary" class="icon-7em"></ion-icon>
   </h1>
 
-  <form [formGroup]="authForm" (onsubmit)="onsubmit()">
+  <form [formGroup]="authForm" (submit)="onsubmit(authProvider.Email)">
     <ng-container *ngIf="!configs.isLogin">
         <ion-item>
           <ion-icon name="person" color="primary" slot="start"></ion-icon>
@@ -33,9 +33,9 @@
       <ion-note slot="end" color="danger" *ngIf="password.dirty && password.hasError('minlength')">Minime is 6 caracters</ion-note>
     </ion-item>
 
-    <ion-button expand="block" [disabled]="authForm.invalid">{{ configs.action }}</ion-button>
+    <ion-button expand="block" type="submit" [disabled]="authForm.invalid">{{ configs.action }}</ion-button>
     <ion-button expand="block" fill="clear" (click)="changeActionAuth()">{{ configs.actionChange }}</ion-button>
-    <ion-button expand="block">
+    <ion-button expand="block" (click)="onsubmit(authProvider.Facebook)">
       <ion-icon name="logo-facebook" slot="start"></ion-icon>
       Login with Facebook
     </ion-button>

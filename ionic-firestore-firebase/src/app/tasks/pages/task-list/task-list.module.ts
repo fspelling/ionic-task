@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { TaskListPage } from './task-list.page';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { TaskItemComponent } from '../../components/task-item/task-item.component';
+import { ComponentsModule } from '../../components/components.module';
 
 const routes: Routes = [
   {
@@ -14,11 +14,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    TaskListPage,
-    TaskItemComponent
+    TaskListPage
   ],
   imports: [
     SharedModule,
+    ComponentsModule,
     RouterModule.forChild(routes)
   ]
 })

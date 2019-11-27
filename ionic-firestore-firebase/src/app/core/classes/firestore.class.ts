@@ -14,8 +14,8 @@ export abstract class Firestore<T extends { id: string }> {
         return this.collection.valueChanges();
     }
 
-    getById(item: T): Observable<T> {
-        return this.collection.doc<T>(item.id).valueChanges();
+    getById(item: string): Observable<T> {
+        return this.collection.doc<T>(item).valueChanges();
     }
 
     create(item: T): Promise<T> {
